@@ -11,6 +11,8 @@ import { Client } from './model'
 export class AppComponent implements OnInit{
 
   clients: Array<Client> = [];
+  selectedClient: Client = new Client();
+  keyword = '';
 
   constructor(
     private clientService: ClientService
@@ -21,8 +23,15 @@ export class AppComponent implements OnInit{
   }
 
   private getClients(): void {
-    this.clientService.getClients().subscribe((res: Array<Client>) => {
-      this.clients = res;
+    this.clientService.getClients().subscribe((res) => {
+      this.clients = [];
+      res.data.forEach((client: Client) => {
+        this.clients.push(client);
+      });
     });
+  }
+
+  onSelectClient(client: Client, index: number): void {
+    this.selectedClient = client;
   }
 }
